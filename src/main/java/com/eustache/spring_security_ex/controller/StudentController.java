@@ -4,7 +4,6 @@ import com.eustache.spring_security_ex.DTO.StudentDTO;
 import com.eustache.spring_security_ex.DTO.StudentResponseDTO;
 import com.eustache.spring_security_ex.services.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
