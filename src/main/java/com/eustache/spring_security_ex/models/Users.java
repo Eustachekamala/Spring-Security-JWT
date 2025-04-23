@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Student {
+public class Users {
     @Id
     @GeneratedValue
     private Integer id;

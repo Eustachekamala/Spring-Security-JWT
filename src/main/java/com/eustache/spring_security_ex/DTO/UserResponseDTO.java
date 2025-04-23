@@ -1,6 +1,6 @@
 package com.eustache.spring_security_ex.DTO;
 
-public record StudentResponseDTO(
+public record UserResponseDTO(
         String username,
         String email
 ) {

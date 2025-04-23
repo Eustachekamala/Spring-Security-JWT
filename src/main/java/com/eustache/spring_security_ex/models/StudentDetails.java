@@ -9,10 +9,10 @@ import java.util.List;
 
 public class StudentDetails implements UserDetails {
 
-    private final Student student;
+    private final Users users;
 
-    public StudentDetails(Student student) {
-        this.student = student;
+    public StudentDetails(Users users) {
+        this.users = users;
     }
 
     @Override
@@ -25,12 +25,12 @@ public class StudentDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return student.getPassword();
+        return users.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return student.getUsername();
+        return users.getUsername();
     }
 
     @Override

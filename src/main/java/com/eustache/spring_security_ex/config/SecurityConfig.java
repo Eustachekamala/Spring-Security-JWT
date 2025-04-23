@@ -1,6 +1,6 @@
 package com.eustache.spring_security_ex.config;
 
-import com.eustache.spring_security_ex.services.StudentService;
+import com.eustache.spring_security_ex.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -43,10 +43,10 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(StudentService studentService) {
+    public AuthenticationProvider authenticationProvider(UserService userService) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setPasswordEncoder(new BCryptPasswordEncoder(12));
-        authProvider.setUserDetailsService(studentService);
+        authProvider.setUserDetailsService(userService);
         return authProvider;
     }
 

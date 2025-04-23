@@ -2,7 +2,7 @@ package com.eustache.spring_security_ex.config;
 
 import com.eustache.spring_security_ex.models.StudentDetails;
 import com.eustache.spring_security_ex.services.JWTService;
-import com.eustache.spring_security_ex.services.StudentService;
+import com.eustache.spring_security_ex.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +36,7 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            StudentDetails studentDetails = (StudentDetails) context.getBean(StudentService.class).loadUserByUsername(username);
+            StudentDetails studentDetails = (StudentDetails) context.getBean(UserService.class).loadUserByUsername(username);
 
             if (jwtService.validateToken(jwtToken, studentDetails)) {
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(

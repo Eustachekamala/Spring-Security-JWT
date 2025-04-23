@@ -1,12 +1,11 @@
 package com.eustache.spring_security_ex.services;
 
-import com.eustache.spring_security_ex.DTO.StudentDTO;
-import com.eustache.spring_security_ex.DTO.StudentResponseDTO;
-import com.eustache.spring_security_ex.mapper.StudentMapper;
-import com.eustache.spring_security_ex.models.Student;
+import com.eustache.spring_security_ex.DTO.UserDTO;
+import com.eustache.spring_security_ex.DTO.UserResponseDTO;
+import com.eustache.spring_security_ex.mapper.UserMapper;
+import com.eustache.spring_security_ex.models.Users;
 import com.eustache.spring_security_ex.models.StudentDetails;
-import com.eustache.spring_security_ex.repositories.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.eustache.spring_security_ex.repositories.UserRepository;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,52 +20,52 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class StudentService implements UserDetailsService {
-    private final StudentRepository studentRepository;
-    private final StudentMapper studentMapper;
+public class UserService implements UserDetailsService {
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
     private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Student student = studentRepository.findByUsername(username);
-        if (student == null) {
+        Users users = userRepository.findByUsername(username);
+        if (users == null) {
             throw new UsernameNotFoundException(username);
         }
-        return new StudentDetails(student);
+        return new StudentDetails(users);
     }
 
-    public StudentService(StudentRepository studentRepository, StudentMapper studentMapper, @Lazy AuthenticationManager authenticationManager, JWTService jwtService) {
-        this.studentRepository = studentRepository;
-        this.studentMapper = studentMapper;
+    public UserService(UserRepository userRepository, UserMapper userMapper, @Lazy AuthenticationManager authenticationManager, JWTService jwtService) {
+        this.userRepository = userRepository;
+        this.userMapper = userMapper;
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
     }
 
     //Get all the students
-    public List<StudentResponseDTO> findAll() {
-        return studentRepository.findAll()
+    public List<UserResponseDTO> findAll() {
+        return userRepository.findAll()
                 .stream()
-                .map(studentMapper::toStudentResponseDTO)
+                .map(userMapper::toStudentResponseDTO)
                 .collect(Collectors.toList());
     }
 
     //Create a student
-    public StudentResponseDTO registerStudent(StudentDTO studentDTO) {
-        var student = studentMapper.toStudentDTO(studentDTO);
+    public UserResponseDTO registerStudent(UserDTO userDTO) {
+        var student = userMapper.toStudentDTO(userDTO);
         student.setPassword(encoder.encode(student.getPassword()));
-        var savedStudent = studentRepository.save(student);
-        return studentMapper.toStudentResponseDTO(savedStudent);
+        var savedStudent = userRepository.save(student);
+        return userMapper.toStudentResponseDTO(savedStudent);
     }
 
-    public String verify(StudentDTO studentDTO) {
+    public String verify(UserDTO userDTO) {
         Authentication authentication = authenticationManager.authenticate(
-               new UsernamePasswordAuthenticationToken(studentDTO.username(), studentDTO.password())
+               new UsernamePasswordAuthenticationToken(userDTO.username(), userDTO.password())
         );
 
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(studentDTO.username());
+            return jwtService.generateToken(userDTO.username());
         }
         return "Failed";
     }
