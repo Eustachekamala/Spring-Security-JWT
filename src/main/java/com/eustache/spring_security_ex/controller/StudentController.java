@@ -4,6 +4,8 @@ import com.eustache.spring_security_ex.DTO.StudentDTO;
 import com.eustache.spring_security_ex.DTO.StudentResponseDTO;
 import com.eustache.spring_security_ex.services.StudentService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,5 +42,14 @@ public class StudentController {
             @RequestBody StudentDTO studentDTO
     ){
         return studentService.registerStudent(studentDTO);
+    }
+
+    @PostMapping("/login")
+    public String login(
+            @RequestBody StudentDTO studentDTO
+    ){
+
+
+        return  studentService.verify(studentDTO);
     }
 }
