@@ -20,7 +20,7 @@ public class SpringSecurityExApplication {
 			StudentRepository studentRepository
 	) {
 		return args -> {
-			for( int i = 0; i < 10; i++ ) {
+			for( int i = 0; i < 2; i++ ) {
 				Faker faker = new Faker();
 				var student = Student.builder()
 						.username(faker.name().username())

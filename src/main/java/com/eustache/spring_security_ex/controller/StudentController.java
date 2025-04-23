@@ -35,10 +35,10 @@ public class StudentController {
         return studentService.findAll();
     }
 
-    @PostMapping("/students")
-    public StudentResponseDTO createStudent(
+    @PostMapping("/register")
+    public StudentResponseDTO registerStudent(
             @RequestBody StudentDTO studentDTO
-    ) {
-        return studentService.saveStudent(studentDTO);
+    ){
+        return studentService.registerStudent(studentDTO);
     }
 }

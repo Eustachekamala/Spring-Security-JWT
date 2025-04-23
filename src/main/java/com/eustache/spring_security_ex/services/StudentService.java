@@ -9,6 +9,7 @@ import com.eustache.spring_security_ex.repositories.StudentRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class StudentService implements UserDetailsService {
     private final StudentRepository studentRepository;
     private final StudentMapper studentMapper;
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -42,8 +44,9 @@ public class StudentService implements UserDetailsService {
     }
 
     //Create a student
-    public StudentResponseDTO saveStudent(StudentDTO studentDTO) {
+    public StudentResponseDTO registerStudent(StudentDTO studentDTO) {
         var student = studentMapper.toStudentDTO(studentDTO);
+        student.setPassword(encoder.encode(student.getPassword()));
         var savedStudent = studentRepository.save(student);
         return studentMapper.toStudentResponseDTO(savedStudent);
     }
